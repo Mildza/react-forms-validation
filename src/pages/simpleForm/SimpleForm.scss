@@ -1,0 +1,44 @@
+
+.simpleForm  {
+  width:300px;
+  margin:70px auto;
+  border:1px solid grey;
+  padding:25px 5px;
+  border-radius: 10px;
+  box-shadow: inset 5px 5px 15px 5px rgb(185, 184, 184);
+  div {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  label {
+    width: 80px;
+    cursor:pointer;
+  }
+  input{ 
+    display:inline-block;
+    padding:7px;
+    outline: none;
+  }
+  
+  button {
+    display: block;
+    width:70px;
+    padding:5px;
+    margin: 20px auto;
+    cursor:pointer;
+    box-shadow: inset 2px 2px 5px 2px rgb(185, 184, 184);
+
+  }
+
+  p {
+    margin: 2px 0px 0px 0px;
+    color:red;
+    font-size: 0.9em;
+  }
+
+  button:disabled {
+    cursor:not-allowed;
+  }
+
+}

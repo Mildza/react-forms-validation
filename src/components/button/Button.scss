@@ -1,0 +1,78 @@
+@import  '../../global';
+
+.button {
+    font: inherit;
+    padding: 0.5rem 1.5rem;
+    border: 3px solid #48474A;
+    border-radius: 6px;
+    background: #F7F1E6;
+    color: #48474A;
+    cursor: pointer;
+     margin-right: 0px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  .button:focus {
+    outline: none;
+  }
+  
+  .button:hover,
+  .button:active {
+    background: #48474A;
+    color: #F7F1E6;
+  }
+  
+  .button--inverse {
+    background: transparent;
+    color: #48474A;
+  }
+  
+  .button--inverse:hover,
+  .button--inverse:active {
+    color: #F7F1E6;
+    background: #48474A;
+  }
+  
+  .button--golden {
+    background: $black;
+    color: $golden;
+    border-color:$golden;
+  }
+  
+  .button--golden:hover,
+  .button--golden:active {
+    background: $golden;
+    color:$black;
+    border-color:$golden;
+  }
+  
+  .button--green {
+    background: $green;
+    color: $golden;
+    border-color: $golden;
+  }
+  
+  .button--green:hover,
+  .button--green:active {
+    background: $golden;
+    color:$green;
+    border-color: $golden;
+  }
+  
+  .button:disabled,
+  .button:hover:disabled,
+  .button:active:disabled {
+    background: #ccc;
+    color: #979797;
+    border-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .button--small {
+    font-size: 0.8rem;
+  }
+  
+  .button--big {
+    font-size: 1.5rem;
+  }

@@ -1,0 +1,55 @@
+@import  '../../global';
+
+.custom-input {
+  margin: 1rem 0;
+  
+  label,
+  input,
+  textarea {
+    display: block;
+  }
+
+  label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: $golden;
+  }
+
+  input,
+  textarea {
+    width: 80%;
+    min-height:40px;
+    font: inherit;
+    background:$black;
+    color: $dirty;
+    border: 2px solid $golden;
+    border-radius: 5px;
+    padding: 0.15rem 0.25rem;
+    margin:10px auto;
+}
+
+  input:focus,
+  textarea:focus {
+    outline: none;
+    background:$black;
+    border-color: $golden;
+  }
+}
+
+.custom-input--invalid  {
+  label {
+    color: red;
+  }
+  p {
+    color: red;
+    font-style: italic;
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+
+  input,
+  textarea {
+    border-color: red;
+    margin-bottom: 2px;
+  }
+}
