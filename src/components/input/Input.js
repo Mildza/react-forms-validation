@@ -1,21 +1,34 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect } from "react";
 
-import { validate } from './validators';
-import './Input.scss';
+import { validate } from "./validators";
+import "./Input.scss";
+
+const initState = {
+  value: "",
+  isTouched: false,
+  isValid: false
+};
 
 const inputReducer = (state, action) => {
   switch (action.type) {
-    case 'CHANGE':
+    case "CHANGE":
       return {
         ...state,
         value: action.val,
         isValid: validate(action.val, action.validators)
       };
-    case 'TOUCH': {
+    case "TOUCH": {
       return {
         ...state,
         isTouched: true
-      }
+      };
+    }
+    case "RESET": {
+      return {
+        value: "",
+        isTouched: false,
+        isValid: false
+      };
     }
     default:
       return state;
@@ -23,25 +36,24 @@ const inputReducer = (state, action) => {
 };
 
 const Input = props => {
-  console.log(props);
-  const [inputState, dispatch] = useReducer(inputReducer, {
-    value: '',
-    isTouched: false,
-    isValid: false
-  });
+  const [inputState, dispatch] = useReducer(inputReducer, initState);
 
   const { id, onInput } = props;
   const { value, isValid } = inputState;
 
   useEffect(() => {
-    onInput(id, value, isValid)
-  },
-    [id, value, isValid, onInput]);
+    onInput(id, value, isValid);
+  }, [id, value, isValid, onInput, props.reset]);
 
+  useEffect(() => {
+    dispatch({
+      type: "RESET"
+    });
+  }, [props.reset]);
 
   const changeHandler = event => {
     dispatch({
-      type: 'CHANGE',
+      type: "CHANGE",
       val: event.target.value,
       validators: props.validators
     });
@@ -49,13 +61,12 @@ const Input = props => {
 
   const touchHandler = () => {
     dispatch({
-      type: 'TOUCH'
+      type: "TOUCH"
     });
   };
 
-
   const element =
-    props.element === 'textarea' ? (
+    props.element === "textarea" ? (
       <textarea
         id={props.id}
         rows={props.rows || 3}
@@ -64,7 +75,7 @@ const Input = props => {
         value={inputState.value}
       />
     ) : (
-        <input
+      <input
         autoComplete="off"
         id={props.id}
         type={props.type}
@@ -73,12 +84,13 @@ const Input = props => {
         onBlur={touchHandler}
         value={inputState.value}
       />
-      );
+    );
 
   return (
     <div
-      className={`custom-input ${!inputState.isValid && inputState.isTouched &&
-        'custom-input--invalid'}`}
+      className={`custom-input ${!inputState.isValid &&
+        inputState.isTouched &&
+        "custom-input--invalid"}`}
     >
       <label htmlFor={props.id}>{props.label}</label>
       {element}

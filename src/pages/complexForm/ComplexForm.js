@@ -1,18 +1,30 @@
-import React, {useState, useReducer, useCallback} from 'react'
+import React, { useState, useReducer, useCallback } from "react";
 
-import Button from '../../components/button/Button'
+import Button from "../../components/button/Button";
 
-import './ComplexForm.scss'
-import Input from '../../components/input/Input';
-import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from './../../components/input/validators';
+import "./ComplexForm.scss";
+import Input from "../../components/input/Input";
+import {
+  VALIDATOR_MINLENGTH,
+  VALIDATOR_REQUIRE,
+  VALIDATOR_EMAIL
+} from "./../../components/input/validators";
+import { loginState, registerState } from "./initValues";
 
 const formReducer = (state, action) => {
+  if (action.type === "REGISTER") {
+    state = {};
+    state = registerState;
+  }
+  if (action.type === "LOGIN") {
+    state = {};
+    state = loginState;
+  }
+
   switch (action.type) {
-    case 'INPUT_CHANGE':
+    case "INPUT_CHANGE":
       let formIsValid = true;
       for (const inputId in state.inputs) {
-        console.log(inputId, action.inputId);
-        
         if (inputId === action.inputId) {
           formIsValid = formIsValid && action.isValid;
         } else {
@@ -33,33 +45,13 @@ const formReducer = (state, action) => {
 };
 
 const ComplexForm = () => {
-  
-  const [toggle, setToggle] = useState(false)
-  const [formState, dispatch] = useReducer(formReducer, {
-    inputs: {
-      firstname: {
-        value: '',
-        isValid: false
-      },
-      lastname: {
-        value: '',
-        isValid: false
-      },
-      email: {
-        value: '',
-        isValid: false
-      },
-      password: {
-        value: '',
-        isValid: false
-      }
-    },
-    isValid: false
-  });
+  const [toggle, setToggle] = useState(false);
+  const [submited, setSubmited] = useState(false);
+  const [state, dispatch] = useReducer(formReducer, loginState);
 
   const inputHandler = useCallback((id, value, isValid) => {
     dispatch({
-      type: 'INPUT_CHANGE',
+      type: "INPUT_CHANGE",
       value: value,
       isValid: isValid,
       inputId: id
@@ -68,41 +60,62 @@ const ComplexForm = () => {
 
   const submitHandler = event => {
     event.preventDefault();
-    if(toggle) {
-      
-    }
-    console.log(formState.inputs);
+    setSubmited(true);
+  };
+
+  const login = () => {
+    setToggle(false);
+    dispatch({
+      type: "LOGIN"
+    });
+    setSubmited(false);
+  };
+  const register = () => {
+    setToggle(true);
+    dispatch({
+      type: "REGISTER"
+    });
+    setSubmited(false);
   };
 
   return (
     <div className="complex">
-       <Button element="input" color="green" onClick={()=>setToggle(false)}>Login</Button>
-       <Button type="submit" element="input" onClick={()=>setToggle(true)} golden>Register</Button>
-       <form className={`${toggle ? 'login' : 'register' }`} onSubmit={submitHandler}>
-       <div>   
-         {toggle && 
-         <>
-          <Input   
-            id="firstname"
-            type="text"
-            label="First Name"
-            placeholder="First Name"
-            errorText="First name is required!"
-            validators={[VALIDATOR_REQUIRE()]}
-            onInput={inputHandler}
-            />
-          <Input   
-            id="lastname"
-            type="text"
-            label="Last Name"
-            placeholder="Last Name"
-            errorText="Last name is required!"
-            validators={[VALIDATOR_REQUIRE()]}
-            onInput={inputHandler}
-          />
-          </> 
-          }
-          <Input   
+      <Button element="input" color="green" onClick={login}>
+        Login
+      </Button>
+      <Button type="submit" element="input" onClick={register} golden>
+        Register
+      </Button>
+      <form
+        className={`${toggle ? "login" : "register"}`}
+        onSubmit={submitHandler}
+      >
+        <div>
+          {toggle && (
+            <>
+              <Input
+                id="firstname"
+                type="text"
+                label="First Name"
+                placeholder="First Name"
+                errorText="First name is required!"
+                validators={[VALIDATOR_REQUIRE()]}
+                onInput={inputHandler}
+                reset={toggle}
+              />
+              <Input
+                id="lastname"
+                type="text"
+                label="Last Name"
+                placeholder="Last Name"
+                errorText="Last name is required!"
+                validators={[VALIDATOR_REQUIRE()]}
+                onInput={inputHandler}
+                reset={toggle}
+              />
+            </>
+          )}
+          <Input
             id="email"
             type="email"
             label="Email"
@@ -110,8 +123,9 @@ const ComplexForm = () => {
             errorText="Please enter a valid email."
             validators={[VALIDATOR_EMAIL()]}
             onInput={inputHandler}
+            reset={toggle}
           />
-          <Input   
+          <Input
             id="password"
             type="password"
             label="Password"
@@ -119,12 +133,26 @@ const ComplexForm = () => {
             errorText="Password must be at least 8 characters!"
             validators={[VALIDATOR_MINLENGTH(8)]}
             onInput={inputHandler}
+            reset={toggle}
           />
         </div>
-        <Button>Sumbit</Button>
-       </form>
-    </div>
-  )
-}
+        <Button disabled={!state.isValid}>Sumbit</Button>
+      </form>
 
-export default ComplexForm
+      {submited && (
+        <>
+          {state.inputs.firstname ? (
+            <p>First name: {state.inputs.firstname.value}</p>
+          ) : null}
+          {state.inputs.lastname ? (
+            <p>Last Name: {state.inputs.lastname.value}</p>
+          ) : null}
+          <p>email: {state.inputs.email.value}</p>
+          <p>password: {state.inputs.password.value}</p>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default ComplexForm;

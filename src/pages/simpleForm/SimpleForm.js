@@ -1,14 +1,16 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import useForm from './useForm'
 import validate from './validator'
 import './SimpleForm.scss';
 
 const SimpleForm = () => {
-
+  const [submited, setSubmited] = useState(false)
   const { handleChange, values, errors, formValid } = useForm(submit, validate)
+  
   function submit(e) {
     e.preventDefault()
+    setSubmited(true)
   }
   return (
     <>
@@ -32,6 +34,15 @@ const SimpleForm = () => {
         </div>
         <button disabled={formValid}>Submit</button>
       </form>
+      
+        {submited && 
+        <div className="output">
+          <p>Username: <span>{values.username}</span></p>
+          <p>Password: <span>{values.password}</span></p>
+          </div>
+        }
+      
+      
     </>
   )
 }

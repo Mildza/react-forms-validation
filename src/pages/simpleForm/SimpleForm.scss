@@ -6,6 +6,7 @@
   padding:25px 5px;
   border-radius: 10px;
   box-shadow: inset 5px 5px 15px 5px rgb(185, 184, 184);
+  
   div {
     text-align: center;
     margin: 0 auto;
@@ -41,4 +42,14 @@
     cursor:not-allowed;
   }
 
+}
+
+.output {
+  width:300px;
+  margin:0 auto;
+
+  span {
+    color:blue;
+  }
+  
 }

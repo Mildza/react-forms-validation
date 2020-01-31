@@ -5,8 +5,6 @@ export default function validate(values, errors) {
     || values.password.trim().length > 0) {
     errors.dirty = true;
   }
-  console.log(values.dirty);
-
   if (values.username.trim().length === 0) {
     errors.username = "Username is required";
   } else if (values.username.trim().length < 4) {
