@@ -1,4 +1,10 @@
-import React, { useState, useReducer, useCallback } from "react";
+import React, {
+  useState,
+  useReducer,
+  useCallback,
+  useRef,
+  useEffect
+} from "react";
 
 import Button from "../../components/button/Button";
 
@@ -48,6 +54,7 @@ const ComplexForm = () => {
   const [toggle, setToggle] = useState(false);
   const [submited, setSubmited] = useState(false);
   const [state, dispatch] = useReducer(formReducer, loginState);
+  const scrollEmail = useRef();
 
   const inputHandler = useCallback((id, value, isValid) => {
     dispatch({
@@ -62,6 +69,15 @@ const ComplexForm = () => {
     event.preventDefault();
     setSubmited(true);
   };
+
+  useEffect(() => {
+    if (scrollEmail.current) {
+      window.scrollTo({
+        behavior: "smooth",
+        top: scrollEmail.current.offsetTop
+      });
+    }
+  }, [submited]);
 
   const login = () => {
     setToggle(false);
@@ -142,13 +158,21 @@ const ComplexForm = () => {
       {submited && (
         <>
           {state.inputs.firstname ? (
-            <p>First name: {state.inputs.firstname.value}</p>
+            <p>
+              First name: <span>{state.inputs.firstname.value}</span>
+            </p>
           ) : null}
           {state.inputs.lastname ? (
-            <p>Last Name: {state.inputs.lastname.value}</p>
+            <p>
+              Last Name: <span>{state.inputs.lastname.value}</span>
+            </p>
           ) : null}
-          <p>email: {state.inputs.email.value}</p>
-          <p>password: {state.inputs.password.value}</p>
+          <p ref={scrollEmail}>
+            email: <span>{state.inputs.email.value}</span>
+          </p>
+          <p>
+            password: <span>{state.inputs.password.value}</span>
+          </p>
         </>
       )}
     </div>

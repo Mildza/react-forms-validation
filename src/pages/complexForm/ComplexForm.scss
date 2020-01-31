@@ -1,23 +1,26 @@
-@import  '../../global';
+@import "../../global";
 
 .complex {
-  width:400px;
+  width: 400px;
   margin: 70px auto;
   text-align: center;
-  
-	form {
-		width: 400px;
-		background-color: $green;
-		border: 2px solid $golden;
-		border-radius:15px;
-	}
-	.register {
-		background-color: $green;
-	}
-	.login {
-		background-color: $black;
-	}
-	Button:last-child {
-		margin-bottom: 20px;
-	}
+
+  form {
+    width: 400px;
+    background-color: $green;
+    border: 2px solid $golden;
+    border-radius: 15px;
+  }
+  .register {
+    background-color: $green;
+  }
+  .login {
+    background-color: $black;
+  }
+  button:last-child {
+    margin-bottom: 20px;
+  }
+  span {
+    color: blue;
+  }
 }
